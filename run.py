@@ -2,19 +2,19 @@ import random
 import time
 
 
-#global variables here
-water = [[]] 
-water_size = 10 
-ships_num = 2 
-rockets_left = 50 
-game_lost = False 
-ships_lost = 0 
+# global variables here
+water = [[]]
+water_size = 10
+ships_num = 2
+rockets_left = 50
+game_lost = False
+ships_lost = 0
 ship_positions = [[]]
-OPTIONS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" 
+OPTIONS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 
 def validate_water_and_place_ship(start_row, end_row, start_col, end_col):
-    #checks a spot to place the ships
+    # checks a spot to place the ships
     global water
     global ship_positions
 
@@ -32,8 +32,8 @@ def validate_water_and_place_ship(start_row, end_row, start_col, end_col):
     return ongoing
 
 
-def ship_on_water(row, col, direction, length): #try_to_place_ship_on_grid
-    #ships will be placed based on direction
+def ship_on_water(row, col, direction, length):
+    # ships will be placed based on direction
     global water_size
 
     start_row, end_row, start_col, end_col = row, row + 1, col, col + 1
@@ -57,7 +57,9 @@ def ship_on_water(row, col, direction, length): #try_to_place_ship_on_grid
             return False
         end_row = row + length
 
-    return validate_water_and_place_ship(start_row, end_row, start_col, end_col)
+    return validate_water_and_place_ship(
+        start_row, end_row, start_col, end_col
+        )
 
 
 def create_water():
@@ -101,7 +103,7 @@ def print_water():
 
     debug_mode = True
 
-    OPTIONS = OPTIONS[0: len(water) + 1] #bug here
+    OPTIONS = OPTIONS[0: len(water) + 1]   # bug here
 
     for row in range(len(water)):
         print(OPTIONS[row], end=") ")
@@ -122,11 +124,11 @@ def print_water():
 
 
 def true_rocket_spot():
-    #this function checks if the rocket placement is correct
+    # this function checks if the rocket placement is correct
     global OPTIONS
     global water
 
-    true_placement = False 
+    true_placement = False
     row = -1
     col = -1
     while true_placement is False:
@@ -158,7 +160,7 @@ def true_rocket_spot():
 
 
 def is_ships_sunk(row, col):
-    #if the whole ship is sunk, we increment the value of ship sunked
+    # if the whole ship is sunk, we increment the value of ship sunked
     global ship_positions
     global water
 
@@ -176,7 +178,7 @@ def is_ships_sunk(row, col):
 
 
 def shoot_rocket():
-    #updates where rocket was shot 
+    # updates where rocket was shot
     global water
     global ships_lost
     global rockets_left
@@ -200,8 +202,8 @@ def shoot_rocket():
     rockets_left -= 1
 
 
-def is_game_over(): 
-    #checks if all rockets are finished or all ships are sunk then game is done
+def is_game_over():
+    # checks if all rockets are finished or all ships are sunk then game over
     global ships_lost
     global ships_num
     global rockets_left
@@ -216,7 +218,7 @@ def is_game_over():
 
 
 def main():
-    #game starts here and starts looping
+    # game starts here and starts looping
     global game_lost
 
     print("-----Welcome to Battleships-----")
@@ -232,7 +234,6 @@ def main():
         print("----------------------------")
         print("")
         is_game_over()
-
 
 if __name__ == '__main__':
     main()
