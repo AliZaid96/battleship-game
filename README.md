@@ -1,31 +1,68 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Battleship Mayhem
 
-Welcome AliZaid96,
+Battleship Mayhem is a python terminal game, which runs in code institute mock terminal in heroku
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **August 17, 2021**
+The aim of this game isn't about being competetive or trying to beat the computer, it's a simple game made to refresh the mind before starting the day!
 
-## Reminders
+## How to play
 
-* Your code must be placed in the `run.py` file
-* Your dependencies must be placed in the `requirements.txt` file
-* Do not edit any of the other files or your code may not deploy properly
+Battleship mayhem is a game where you can visibly see the ships you need to destroy, you dont need to guess or be lucky to win, but can you do it in under 20 seconds? maybe 30? try to set a record for youself when playing, but remember, you have 50 tries until game is over and you lose.
 
-## Creating the Heroku app
+## game rules
+The "." sign is the empty water, if you hit it you gain nothing but lose a rocket.
+The 0 is the ship on the sea, if you hit it you destroy a ship
+If you miss though you will see the # sign which means you missed,
+and x mean you hit the ship.
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+## Features
+### Random board generator
 
-1. `heroku/python`
-2. `heroku/nodejs`
+- ships are randomly placed on the board
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+- You can see the ships you need to target using alphabets and numbers
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+![game preview](media/pictures/readme.md1.png)
 
-Connect your GitHub repository and deploy as normal.
+- Track you score and how many ships remaining
 
-## Constraints
+- Track the rockets you have left
 
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+![score preview](media/pictures/readme.md2.png)
 
------
-Happy coding!
+- you cannot fire the same spot twice
+
+- you cannot type irrelevant letter or number otherwise it will reset
+
+![invalid answer](media/pictures/readme.md3.png)
+
+## Future features
+
+- being able to play with the computer with a random ship generator
+- increasing the amount of ships
+- having a score board by the end of the game
+
+## Testing
+
+> I have manually tested this project by doing the following
+- passed the code through a pep8 tester and confirmed no issues
+- given invalid options which leads to resetting the game
+- tested in my code terminal as well as Heroku terminal
+
+## bugs 
+
+- I had an issue in true_rocket_spot function where the rows and cols were 0 by default
+
+- shoot_rocket funtion had a missing decrement which led to me having an infinite tries
+
+
+## remaining bug 
+
+- no remaining bugs
+
+
+
+## Credits
+
+- code institute for deployment terminal
+
+- w3schools for some of the codes for functions and using global variables in that set
