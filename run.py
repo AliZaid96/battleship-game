@@ -30,7 +30,7 @@ def validate_water_and_place_ship(start_row, end_row, start_col, end_col):
     return ongoing
 
 def ship_on_water(row, col, direction, length):
-    #Based on direction will call helper method to try and place a ship on the grid
+    #ships will be placed based on direction
     global water_size
 
     start_row, end_row, start_col, end_col = row, row + 1, col, col + 1
@@ -40,7 +40,7 @@ def ship_on_water(row, col, direction, length):
         start_col = col - length + 1
 
     elif direction == "right":
-        if col + length >= grid_size:
+        if col + length >= water_size:
             return False
         end_col = col + length
 
@@ -50,8 +50,42 @@ def ship_on_water(row, col, direction, length):
         start_row = row - length + 1
 
     elif direction == "down":
-        if row + length >= grid_size:
+        if row + length >= water_size:
             return False
         end_row = row + length
 
     return ship_on_water(start_row, end_row, start_col, end_col)
+
+def create_water():
+    """
+    Will create a 10x10 water and randomly place down ships
+    of different sizes in different directions
+    """
+    global water
+    global water_size
+    global ships_num
+    global ship_positions
+
+    random.seed(time.time())
+
+    rows, cols = (water_size, water_size)
+
+    water = []
+    for r in range(rows):
+        row = []
+        for c in range(cols):
+            row.append(".")
+        water.append(row)
+
+    num_of_ships_placed = 0
+
+    ship_positions = []
+
+    while num_of_ships_placed != ships_num:
+        random_row = random.randint(0, rows - 1)
+        random_col = random.randint(0, cols - 1)
+        direction = random.choice(["left", "right", "up", "down"])
+        ship_size = random.randint(3, 5)
+        if ship_on_water(row, col, direction, length)(random_row, random_col, direction, water_size):
+            num_of_ships_placed += 1
+            
