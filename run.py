@@ -5,7 +5,7 @@ import time
 water = [[]]
 water_size = 10
 ships_num = 2
-bullets_rem = 40
+bullets_rem = 50
 game_lost = False
 ships_lost = 0
 ship_positions = [[]]
@@ -28,6 +28,7 @@ def validate_water_and_place_ship(start_row, end_row, start_col, end_col):
             for c in range(start_col, end_col):
                 water[r][c] = "O"
     return ongoing
+
 
 def ship_on_water(row, col, direction, length):
     #ships will be placed based on direction
@@ -55,6 +56,7 @@ def ship_on_water(row, col, direction, length):
         end_row = row + length
 
     return ship_on_water(start_row, end_row, start_col, end_col)
+
 
 def create_water():
     """
@@ -85,8 +87,8 @@ def create_water():
         random_row = random.randint(0, rows - 1)
         random_col = random.randint(0, cols - 1)
         direction = random.choice(["left", "right", "up", "down"])
-        ship_size = random.randint(3, 5)
-        if ship_on_water(row, col, direction, length)(random_row, random_col, direction, water_size):
+        ship_length = random.randint(3, 5)
+        if ship_on_water(random_row, random_col, direction, ship_length):
             num_of_ships_placed += 1
 
 def print_water():
@@ -101,7 +103,7 @@ def print_water():
     OPTIONS = OPTIONS[0: len(water) + 1]
 
     for row in range(len(water)):
-        print(alphabet[row], end=") ")
+        print(OPTIONS[row], end=") ")
         for col in range(len(water[row])):
             if water[row][col] == "O":
                 if debug_mode:
@@ -136,15 +138,15 @@ def true_rocket_spot():
         row = placement[0]
         col = placement[1]
         if not row.isalpha() or not col.isnumeric():
-            print("Error: Please enter letter (A-J) for row and (0-9) for column")
+            print("Error: Please enter letter (A-J) and num (0-9)")
             continue
         row = OPTIONS.find(row)
         if not (-1 < row < water_size):
-            print("Error: Please enter letter (A-J) for row and (0-9) for column")
+            print("Error: Please enter letter (A-J) and num (0-9)")
             continue
         col = int(col)
         if not (-1 < col < water_size):
-            print("Error: Please enter letter (A-J) for row and (0-9) for column")
+            print("Error: Please enter letter (A-J) and num (0-9) ")
             continue
         if water[row][col] == "#" or water[row][col] == "X":
             print("You have already shot a bullet here, pick somewhere else")
@@ -169,12 +171,14 @@ def ships_sunk(row, col):
             # Ship found, now check if its all sunk
             for r in range(start_row, end_row):
                 for c in range(start_col, end_col):
-                    if grid[r][c] != "X":
+                    if water[r][c] != "X":
                         return False
     return True
 
 def shoot_rocket():
-    #update where rocket was shot 
+
+    #updates where rocket was shot 
+    
     global water
     global ships_lost
     global bullets_rem
@@ -196,3 +200,41 @@ def shoot_rocket():
             print("Perfect hit!")
 
     bullets_rem -= 1
+
+
+def is_game_over():
+    #checks if all rockets are finished or all ships are sunk then game is done
+    global ships_lost
+    global ships_num
+    global bullets_rem
+    global game_lost
+
+    if ships_num == ships_lost:
+        print("You did it! YOU WON!")
+        game_lost = True
+    elif bullets_rem <= 0:
+        print("OUCH! No rockets left, you LOSE!")
+        game_lost = True
+
+
+def main():
+    #game starts here
+    global game_lost
+
+    print("-----Welcome to Battleships-----")
+    print("You have 50 bullets to take down 8 ships, may the battle begin!")
+
+    create_water()
+
+    while game_lost is False:
+        print_water()
+        print("Number of ships remaining: " + str(ships_num - ships_sunk))
+        print("Number of bullets left: " + str(bullets_rem))
+        shoot_rocket()
+        print("----------------------------")
+        print("")
+        is_game_over()
+
+if __name__ == '__main__':
+    """Will only be called when program is run from terminal or an IDE like PyCharms"""
+    main()
