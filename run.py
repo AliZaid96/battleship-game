@@ -88,4 +88,68 @@ def create_water():
         ship_size = random.randint(3, 5)
         if ship_on_water(row, col, direction, length)(random_row, random_col, direction, water_size):
             num_of_ships_placed += 1
-            
+
+def print_water():
+    """
+    Will print the grid with rows A-J and columns 0-9
+    """
+    global water
+    global OPTIONS
+
+    debug_mode = True
+
+    OPTIONS = OPTIONS[0: len(water) + 1]
+
+    for row in range(len(water)):
+        print(alphabet[row], end=") ")
+        for col in range(len(water[row])):
+            if water[row][col] == "O":
+                if debug_mode:
+                    print("O", end=" ")
+                else:
+                    print(".", end=" ")
+            else:
+                print(water[row][col], end=" ")
+        print("")
+
+    print("  ", end=" ")
+    for i in range(len(water[0])):
+        print(str(i), end=" ")
+    print("")
+
+
+
+def true_rocket_spot():
+    #this function checks if the rocket placement is correct
+    global OPTIONS
+    global water
+
+    true_placement = False
+    row = -1
+    col = -1
+    while true_placement is False:
+        placement = input("Enter row (A-J) and column (0-9) such as A3: ")
+        placement = placement.upper()
+        if len(placement) <= 0 or len(placement) > 2:
+            print("Error: Please enter only one row and column such as A3")
+            continue
+        row = placement[0]
+        col = placement[1]
+        if not row.isalpha() or not col.isnumeric():
+            print("Error: Please enter letter (A-J) for row and (0-9) for column")
+            continue
+        row = OPTIONS.find(row)
+        if not (-1 < row < water_size):
+            print("Error: Please enter letter (A-J) for row and (0-9) for column")
+            continue
+        col = int(col)
+        if not (-1 < col < water_size):
+            print("Error: Please enter letter (A-J) for row and (0-9) for column")
+            continue
+        if water[row][col] == "#" or water[row][col] == "X":
+            print("You have already shot a bullet here, pick somewhere else")
+            continue
+        if water[row][col] == "." or water[row][col] == "O":
+            true_placement = True
+
+    return row, col
