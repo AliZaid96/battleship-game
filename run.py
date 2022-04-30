@@ -20,7 +20,7 @@ def validate_water_and_place_ship(start_row, end_row, start_col, end_col):
     for r in range(start_row, end_row):
         for c in range(start_col, end_col):
             if water[r][c] != ".":
-                all_valid = False
+                ongoing = False
                 break
     if ongoing:
         ship_positions.append([start_row, end_row, start_col, end_col])
@@ -153,3 +153,46 @@ def true_rocket_spot():
             true_placement = True
 
     return row, col
+
+
+def ships_sunk(row, col):
+    #if the whole ship is sunk, we increment the value of ship sunked
+    global ship_positions
+    global water
+
+    for position in ship_positions:
+        start_row = position[0]
+        end_row = position[1]
+        start_col = position[2]
+        end_col = position[3]
+        if start_row <= row <= end_row and start_col <= col <= end_col:
+            # Ship found, now check if its all sunk
+            for r in range(start_row, end_row):
+                for c in range(start_col, end_col):
+                    if grid[r][c] != "X":
+                        return False
+    return True
+
+def shoot_rocket():
+    #update where rocket was shot 
+    global water
+    global ships_lost
+    global bullets_rem
+
+    row, col = true_rocket_spot()
+    print("")
+    print("----------------------------")
+
+    if water[row][col] == ".":
+        print("unlucky, try again")
+        water[row][col] = "#"
+    elif water[row][col] == "O":
+        print("BINGO", end=" ")
+        water[row][col] = "X"
+        if ships_sunk(row, col):
+            print("You finally destroyed a ship!")
+            ships_lost += 1
+        else:
+            print("Perfect hit!")
+
+    bullets_rem -= 1
